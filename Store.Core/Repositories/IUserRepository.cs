@@ -11,7 +11,7 @@ namespace Store.Core.Repositories
         Task<User> GetAsync(string email);
         Task<IEnumerable<User>> BrowseAsync(int offset, int limit);
         Task AddAsync(User user);
-        Task UpdateAsync(User user);
+        void Update(User user);  //not sure if should be async, but if 
         Task RemoveAsync(Guid id);    
     }
 }

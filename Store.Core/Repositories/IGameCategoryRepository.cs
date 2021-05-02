@@ -6,10 +6,9 @@ namespace Store.Core.Repositories
 {
     public interface IGameCategoryRepository : IRepository
     {
-         Task<GameCategory> GetAsync(Guid id);
-         Task<IEnumerable<GameCategory>> BrowseAsync(int offset, int limit);
+         Task<IEnumerable<GameCategory>> GetManyAsync(Guid gameId);         
          Task AddAsync(GameCategory gameCategory);
-         Task UpdateAsync(GameCategory gameCategory);
+         void Update(GameCategory gameCategory);
          Task RemoveAsync(Guid id);
     }
 }

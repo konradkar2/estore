@@ -7,10 +7,10 @@ namespace Store.Core.Repositories
 {
     public interface IGameRepository : IRepository
     {
-         Task<Key> GetAsync(Guid id);
-         Task<IEnumerable<Key>> BrowseAsync();
-         Task AddAsync(Key game);
-         Task UpdateAsync(Key game);
+         Task<Game> GetAsync(Guid id);
+         Task<IEnumerable<Game>> BrowseAsync();
+         Task AddAsync(Game game);
+         void Update(Game game);
          Task RemoveAsync(Guid id);
     }
 }

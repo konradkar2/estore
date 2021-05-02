@@ -64,6 +64,7 @@ namespace Store.Infrastructure.Services
             var hash = _encrypter.GetHash(password,salt);            
             user = new User(userId,username,email,role,hash,salt);
             await _userRepository.AddAsync(user);
+            await _userRepository.SaveChangesAsync();
 
         }
     }

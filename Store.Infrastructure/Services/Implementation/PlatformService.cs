@@ -36,6 +36,7 @@ namespace Store.Infrastructure.Services.Implementation
             }
             platform = new Platform(id,name);
             await _platformRepository.AddAsync(platform);
+            await _platformRepository.SaveChangesAsync();
 
         }
 

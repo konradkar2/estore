@@ -10,7 +10,7 @@ namespace Store.Core.Repositories
         Task<Key> GetAsync(Guid id);
         Task<IEnumerable<Key>> BrowseAsync(int offset, int limit);
         Task AddAsync(Key key);
-        Task UpdateAsync(Key key);
+        void Update(Key key);
         Task RemoveAsync(Guid id);         
     }
 }

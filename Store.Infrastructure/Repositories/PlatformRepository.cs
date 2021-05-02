@@ -17,8 +17,7 @@ namespace Store.Infrastructure.Repositories
         }
         public async Task AddAsync(Platform platform)
         {
-            await _context.Platform.AddAsync(platform);
-            await _context.SaveChangesAsync();
+            await _context.Platform.AddAsync(platform);            
         }
 
         public async Task<IEnumerable<Platform>> BrowseAsync()
@@ -33,15 +32,19 @@ namespace Store.Infrastructure.Repositories
         public async Task RemoveAsync(Guid id)
         {
             var platform = await GetAsync(id);
-            _context.Platform.Remove(platform);
-            await _context.SaveChangesAsync();
-
+            _context.Platform.Remove(platform);            
         }
 
-        public async Task UpdateAsync(Platform platform)
+        public void Update(Platform platform)
         {
-            _context.Platform.Update(platform);
-            await _context.SaveChangesAsync();
+            _context.Platform.Update(platform);     
         }
+
+        public async Task SaveChangesAsync()
+        {
+           await _context.SaveChangesAsync();
+        }
+
+       
     }
 }

@@ -9,7 +9,10 @@ namespace Store.Infrastructure.EF
         private readonly SqlSettings _sqlSettings;
         public DbSet<User> User {get;set;}
         public DbSet<Platform> Platform{get;set;}
-        public DbSet<UserTransaction> UserTransactions {get;set;}
+        public DbSet<Game> Game{get;set;}
+        public DbSet<GameCategory> GameCategory{get;set;}
+        public DbSet<Category> Category {get;set;}
+        public DbSet<UserTransaction> UserTransaction {get;set;}
         public StoreContext(DbContextOptions<StoreContext> options, SqlSettings sqlSettings) : base(options)
         {
             _sqlSettings =sqlSettings;

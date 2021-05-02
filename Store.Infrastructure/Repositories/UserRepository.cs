@@ -18,8 +18,7 @@ namespace Store.Infrastructure.Repositories
         }
         public async Task AddAsync(User user)
         {
-            await _context.User.AddAsync(user);
-            await _context.SaveChangesAsync();
+            await _context.User.AddAsync(user);            
         }
         public async Task<IEnumerable<User>> BrowseAsync(int offset, int limit)
                 => await _context.User.OrderBy(x => x.Email).Skip(offset).Take(limit).ToListAsync();
@@ -33,14 +32,17 @@ namespace Store.Infrastructure.Repositories
         public async Task RemoveAsync(Guid id)
         {
             var user = await GetAsync(id);
-            _context.User.Remove(user);
+            _context.User.Remove(user);            
+        }
+
+        public async Task SaveChangesAsync()
+        {
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(User user)
+        public void Update(User user)
         {
-            _context.User.Update(user);
-            await _context.SaveChangesAsync();
+             _context.User.Update(user);
         }
     }
 }

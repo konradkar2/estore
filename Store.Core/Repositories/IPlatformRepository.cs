@@ -11,7 +11,7 @@ namespace Store.Core.Repositories
         Task<Platform> GetAsync(string name);
          Task<IEnumerable<Platform>> BrowseAsync();
          Task AddAsync(Platform platform);
-         Task UpdateAsync(Platform platform);
+         void Update(Platform platform);
          Task RemoveAsync(Guid id);    
     }
 }
