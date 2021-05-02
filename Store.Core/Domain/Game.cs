@@ -39,14 +39,14 @@ namespace Store.Core.Domain
         private void SetPrice(decimal price)
         {
             if(price.IsNegative()){
-                throw new Exception("Game name cannot be empty");
+                throw new Exception("Price cannot be less than 0");
             }
             Price = price;
         }
         private void SetQuantity(int quantity)
         {
             if(quantity.IsNegative()){
-                throw new Exception("Game name cannot be empty");
+                throw new Exception("Quantity cannot be less than 0");
             }
             Quantity = quantity;
         }
