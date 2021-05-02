@@ -1,5 +1,5 @@
 # e-store
-Web API written in C# .NET for an e-commerce video game shop
+Web API written in C# .NET5.0 for an e-commerce video game shop
 ## About
 The project is migration of https://github.com/konradkar2/store to .NET
 
