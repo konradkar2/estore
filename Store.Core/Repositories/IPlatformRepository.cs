@@ -5,7 +5,7 @@ using Store.Core.Domain;
 
 namespace Store.Core.Repositories
 {
-    public interface IPlatformRepository
+    public interface IPlatformRepository : IRepository
     {
         Task<Platform> GetAsync(Guid id);
          Task<IEnumerable<Platform>> BrowseAsync();

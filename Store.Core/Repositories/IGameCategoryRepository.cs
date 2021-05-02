@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Store.Core.Domain;
 namespace Store.Core.Repositories
 {
-    public interface IGameCategoryRepository
+    public interface IGameCategoryRepository : IRepository
     {
          Task<GameCategory> GetAsync(Guid id);
          Task<IEnumerable<GameCategory>> BrowseAsync(int offset, int limit);
