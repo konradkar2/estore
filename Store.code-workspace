@@ -1,0 +1,23 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "Store.Api"
+		},
+		{
+			"path": "Store.Core"
+		},
+		{
+			"path": "Store.Infrastructure"
+		},
+		{
+			"path": "Store.Tests.Integration"
+		},
+		{
+			"path": "Store.Tests.Unit"
+		}
+	],
+	"settings": {}
+}
