@@ -10,6 +10,6 @@ namespace Store.Core.Repositories
          Task<IEnumerable<GameCategory>> BrowseAsync(int offset, int limit);
          Task AddAsync(GameCategory gameCategory);
          Task UpdateAsync(GameCategory gameCategory);
-         Task RemoveAsync(GameCategory gameCategory);
+         Task RemoveAsync(Guid id);
     }
 }

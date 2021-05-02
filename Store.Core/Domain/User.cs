@@ -8,7 +8,7 @@ namespace Store.Core.Domain
     public class User
     {
         public Guid Id {get;protected set;}
-        public string Name {get;protected set;}
+        public string Username {get;protected set;}
         public string Email {get;protected set;}
         public string Role {get;protected set;}
         public string PasswordHash {get; protected set;}
@@ -16,23 +16,23 @@ namespace Store.Core.Domain
         public IEnumerable<UserTransaction> UserTransactions {get; protected set;}
         protected User(){}
 
-        public User(Guid id, string name, string email, string role, string passwordHash, string salt)
+        public User(Guid id, string username, string email, string role, string passwordHash, string salt)
         {
             Id = id;
             SetEmail(email);
-            SetName(name);
+            SetName(username);
             SetRole(role);
             SetPasswordHash(passwordHash);
             SetSalt(salt);
 
         }
-        private void SetName(string name)
+        private void SetName(string username)
         {
-            if(name.Empty())
+            if(username.Empty())
             {
                 throw new Exception("Name cannot be empty");
             }
-            Name = name;
+            Username = username;
         }
         private void SetRole(string role)
         {
@@ -48,7 +48,7 @@ namespace Store.Core.Domain
             {
                 throw new Exception("password hash cannot be empty"); //should be internal serr
             }
-            Name = passwordHash;
+            PasswordHash = passwordHash;
         }
         private void SetSalt(string salt)
         {

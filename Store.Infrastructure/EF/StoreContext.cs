@@ -4,11 +4,13 @@ using Store.Core.Domain;
 
 namespace Store.Infrastructure.EF
 {
-    public class PassengerContext : DbContext
+    public class StoreContext : DbContext
     {
         private readonly SqlSettings _sqlSettings;
         public DbSet<User> User {get;set;}
-        public PassengerContext(DbContextOptions<PassengerContext> options, SqlSettings sqlSettings) : base(options)
+        public DbSet<Platform> Platform{get;set;}
+        public DbSet<UserTransaction> UserTransactions {get;set;}
+        public StoreContext(DbContextOptions<StoreContext> options, SqlSettings sqlSettings) : base(options)
         {
             _sqlSettings =sqlSettings;
         }
@@ -29,9 +31,13 @@ namespace Store.Infrastructure.EF
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {            
             var userBuilder = modelBuilder.Entity<User>();
-            userBuilder.HasKey(x => x.Id);
-            userBuilder.HasMany(u => u.UserTransactions)
-                       .WithOne(ut => ut.User);                       
+            userBuilder.HasKey(u => u.Id);
+
+            var userTransactionBuilder = modelBuilder.Entity<UserTransaction>();
+            userTransactionBuilder.HasKey(ut => ut.Id);       
+            userTransactionBuilder.HasOne(ut => ut.User)
+                                  .WithMany(u => u.UserTransactions)
+                                  .HasForeignKey(ut => ut.UserId);
 
             var gameBuilder = modelBuilder.Entity<Game>();
             gameBuilder.HasKey(g => g.Id);            
@@ -55,6 +61,11 @@ namespace Store.Infrastructure.EF
             keyBuilder.HasOne(k => k.Game)
                       .WithMany(g => g.Keys)
                       .HasForeignKey(k => k.GameId);
+
+            var categoryBuilder = modelBuilder.Entity<Category>();
+            categoryBuilder.HasKey(c => c.Id);
+
+           
             
 
 

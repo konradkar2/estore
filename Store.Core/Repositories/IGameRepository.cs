@@ -11,6 +11,6 @@ namespace Store.Core.Repositories
          Task<IEnumerable<Key>> BrowseAsync();
          Task AddAsync(Key game);
          Task UpdateAsync(Key game);
-         Task RemoveAsync(Key game);
+         Task RemoveAsync(Guid id);
     }
 }

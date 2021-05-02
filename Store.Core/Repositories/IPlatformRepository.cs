@@ -7,10 +7,11 @@ namespace Store.Core.Repositories
 {
     public interface IPlatformRepository : IRepository
     {
-        Task<Key> GetAsync(Guid id);
-         Task<IEnumerable<Key>> BrowseAsync();
-         Task AddAsync(Key platform);
-         Task UpdateAsync(Key platform);
-         Task RemoveAsync(Key platform);    
+        Task<Platform> GetAsync(Guid id);
+        Task<Platform> GetAsync(string name);
+         Task<IEnumerable<Platform>> BrowseAsync();
+         Task AddAsync(Platform platform);
+         Task UpdateAsync(Platform platform);
+         Task RemoveAsync(Guid id);    
     }
 }

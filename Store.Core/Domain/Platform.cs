@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Store.Core.Extensions;
 
 namespace Store.Core.Domain
 {
@@ -12,7 +13,15 @@ namespace Store.Core.Domain
         public Platform(Guid id, string name)
         {
             Id = id;
-            Name = name;
+            SetName(name);
+        }
+        private void SetName(string name)
+        {
+            if (name.Empty())
+            {
+                throw new Exception("Platform name can not be empty");
+            }
+            Name = name.ToLowerInvariant();
         }
     }
 }

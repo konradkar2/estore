@@ -9,8 +9,8 @@ namespace Store.Core.Repositories
     {
         Task<Key> GetAsync(Guid id);
         Task<IEnumerable<Key>> BrowseAsync(int offset, int limit);
-        Task AddAsync(Key game);
-        Task UpdateAsync(Key game);
-        Task RemoveAsync(Key game);         
+        Task AddAsync(Key key);
+        Task UpdateAsync(Key key);
+        Task RemoveAsync(Guid id);         
     }
 }
