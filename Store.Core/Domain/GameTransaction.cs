@@ -6,8 +6,9 @@ namespace Store.Core.Domain
     {
         public Guid Id {get;protected set;}
         public Guid UserTransactionId {get; protected set;}
+        public UserTransaction _UserTransaction {get;protected set;}
         public Guid GameId {get;protected set;}
-        public Platform Game {get;protected set;}
+        public Key Game {get;protected set;}
         public Guid KeyId{get;protected set;}
         public Key Key {get;protected set;}
 

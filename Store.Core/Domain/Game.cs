@@ -15,8 +15,9 @@ namespace Store.Core.Domain
         public DateTime ReleaseDate {get;protected set;}
         public bool IsDigital{get;protected set;}
         public Guid PlatformId{get;protected set;}
-        public Platform _Platform{get;protected set;}
+        public Platform Platform{get;protected set;}
         public IEnumerable<GameCategory> GameCategories {get; protected set;}
+        public IEnumerable<Key> Keys {get;protected set;}
         protected Game(){}
         
         public Game(Guid id, string name, decimal price, int quantity,string description,
