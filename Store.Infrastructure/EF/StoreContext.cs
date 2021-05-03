@@ -60,7 +60,7 @@ namespace Store.Infrastructure.EF
             gameCategoryBuilder.HasOne(gc => gc.Category)
                                 .WithMany(c => c.GameCategories)
                                 .HasForeignKey(gc => gc.CategoryId);
-            var keyBuilder = modelBuilder.Entity<Key>();
+            var keyBuilder = modelBuilder.Entity<Key>().ToTable("GameKey");            
             keyBuilder.HasKey(k => k.Id);
             keyBuilder.HasOne(k => k.Game)
                       .WithMany(g => g.Keys)

@@ -18,6 +18,7 @@ namespace Store.Infrastructure.Mappers
                 cfg.CreateMap<Game,GameDto>()
                             .ForMember(dto => dto.Categories, opt => opt.MapFrom(g => g.GameCategories));
                 cfg.CreateMap<Category,CategoryDto>();               
+                cfg.CreateMap<Key,KeyDto>();               
                 
             });
             return configuration.CreateMapper();

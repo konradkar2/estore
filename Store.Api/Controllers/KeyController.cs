@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Store.Infrastructure.Commands;
@@ -19,6 +20,12 @@ namespace Store.Api.Controllers
         {            
             await CommandDispatcher.DispatchAsync(command);
             return NoContent();
+        }
+        [HttpGet("gameId")]
+        public async Task<IActionResult> Get(Guid gameId)
+        {
+            var results = await _StoreManager.BrowseKeysAsync(gameId);
+            return Ok(results);
         }
     }
 }

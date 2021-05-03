@@ -32,7 +32,7 @@ namespace Store.Infrastructure.Services.Implementation
 
         public async Task AddKeysAsync(Guid gameId, IEnumerable<string> keys)
         {
-            var game = _gameRepository.GetAsync(gameId);
+            Game game = await _gameRepository.GetAsync(gameId);
             if(game == null)
             {
                 throw new Exception($"Game of id '{gameId}' does not exist");
@@ -49,10 +49,16 @@ namespace Store.Infrastructure.Services.Implementation
             
         }
 
-        public async Task<IEnumerable<GameDto>> BrowseAsync()
+        public async Task<IEnumerable<GameDto>> BrowseGamesAsync()
         {
             var games = await _gameRepository.BrowseAsync();
             return _mapper.Map<IEnumerable<GameDto>>(games);
+        }
+
+        public async Task<IEnumerable<KeyDto>> BrowseKeysAsync(Guid gameId)
+        {
+           var keys = await _keyRepository.BrowseAsync(gameId);
+           return _mapper.Map<IEnumerable<KeyDto>>(keys);
         }
 
         public async Task CreateCategoryAsync(Guid id, string name)
