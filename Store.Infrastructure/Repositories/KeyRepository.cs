@@ -54,26 +54,28 @@ namespace Store.Infrastructure.Repositories
 
         public void Update(Key key)
         {
-            _context.Update(key);
+            _context.Key.Update(key);
         }
 
         public async Task<int> GetNotUsedCountAsync(Guid gameId)
-            => await _context.Key                        
+            => await _context.Key                                             
                         .Where(k => k.GameId == gameId)
                         .Where(k => k.Used == false)
                         .CountAsync();
 
         public async Task<Key> TakeOneNotUsedAsync(Guid gameId)
-            => await _context.Key                        
+            => await _context.Key      
+                            .AsNoTracking()                       
                             .Where(k => k.GameId == gameId)
                             .Where(k => k.Used == false)
                             .FirstOrDefaultAsync();
 
         public async Task<IEnumerable<Key>> TakeManyNotUsedAsync(Guid gameId, int quantity)
-            => await _context.Key                        
-                                .Where(k => k.GameId == gameId)
-                                .Where(k => k.Used == false)
-                                .Take(quantity)
-                                .ToListAsync();
+            => await _context.Key     
+                            .AsNoTracking()                        
+                            .Where(k => k.GameId == gameId)
+                            .Where(k => k.Used == false)
+                            .Take(quantity)
+                            .ToListAsync();
     }
 }

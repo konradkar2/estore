@@ -47,7 +47,7 @@ namespace Store.Infrastructure.Services.Implementation
                 {
                     throw new Exception("Qountity cannot be a negative number");
                 }
-                var game = await _gameRepository.GetOrFailAsync(userId);
+                var game = await _gameRepository.GetOrFailAsync(gameId);
                 var count = await _storeManager.GetCopyCount(gameId);
                 if(quantity > count)
                 {
@@ -60,7 +60,7 @@ namespace Store.Infrastructure.Services.Implementation
                 await _userTransactionRepository.AddAsync(userTransaction);
                 var keys = await _keyRepository.TakeManyNotUsedAsync(gameId,quantity);
                 //set used to true on keys
-                keys = keys.Select(k => new Key(k.Id,k.GameId,used: true,k.GKey));
+                keys = keys.Select(k => new Key(k.Id,k.GameId,used: true,k.GKey)).ToList();
                 var gameTransactions = keys.Select(k => new GameTransaction(Guid.NewGuid(),userTransaction.Id,gameId,k.Id));
                 foreach(var key in keys)
                 {
