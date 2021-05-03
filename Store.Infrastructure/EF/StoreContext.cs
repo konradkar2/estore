@@ -11,6 +11,7 @@ namespace Store.Infrastructure.EF
         public DbSet<Platform> Platform{get;set;}
         public DbSet<Game> Game{get;set;}
         public DbSet<GameCategory> GameCategory{get;set;}
+        public DbSet<GameTransaction> GameTransaction{get;set;}
         public DbSet<Category> Category {get;set;}
         public DbSet<UserTransaction> UserTransaction {get;set;}
         public DbSet<Key> Key {get;set;}
@@ -65,9 +66,22 @@ namespace Store.Infrastructure.EF
             keyBuilder.HasOne(k => k.Game)
                       .WithMany(g => g.Keys)
                       .HasForeignKey(k => k.GameId);
+            keyBuilder.HasOne(k => k.GameTransaction)
+                      .WithOne(gt => gt.Key)
+                      .HasForeignKey<GameTransaction>(gt => gt.KeyId);
 
             var categoryBuilder = modelBuilder.Entity<Category>();
             categoryBuilder.HasKey(c => c.Id);
+
+            var gameTransactionBuilder = modelBuilder.Entity<GameTransaction>();
+            gameTransactionBuilder.HasKey(gt => gt.Id);
+            gameTransactionBuilder.HasOne(gt => gt.UserTransaction)
+                                  .WithMany(ut => ut.GameTransactions)
+                                  .HasForeignKey(gt => gt.UserTransactionId);
+           
+                                 
+                                                                   
+                                
 
            
             

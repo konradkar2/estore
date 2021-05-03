@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,7 @@ namespace Store.Infrastructure.Repositories
         {
             await _context.GameCategory.AddAsync(gameCategory);
         }
+        
 
         public async Task<IEnumerable<GameCategory>> GetManyAsync(Guid gameId)
                 => await _context.GameCategory.Where(x => x.GameId == gameId).ToListAsync();

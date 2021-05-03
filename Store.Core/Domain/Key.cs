@@ -9,6 +9,7 @@ namespace Store.Core.Domain
         public Game Game {get;protected set;}
         public bool Used {get;protected set;}
         public string GKey{get;protected set;}
+        public GameTransaction GameTransaction {get;protected set;}
         protected Key(){}
         public Key(Guid id, Guid gameId, bool used, string gkey)
         {

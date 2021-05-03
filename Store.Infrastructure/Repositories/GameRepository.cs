@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Store.Core.Domain;
@@ -20,6 +21,7 @@ namespace Store.Infrastructure.Repositories
             await _context.Game.AddAsync(game);            
         }
 
+        
         public async Task<IEnumerable<Game>> BrowseAsync()       
                 => await _context.Game
                             .Include(g => g.Platform)

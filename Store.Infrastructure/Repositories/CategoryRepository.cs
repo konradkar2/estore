@@ -5,6 +5,7 @@ using Store.Core.Domain;
 using Store.Core.Repositories;
 using Store.Infrastructure.EF;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace Store.Infrastructure.Repositories
 {
@@ -19,6 +20,7 @@ namespace Store.Infrastructure.Repositories
         {
             await _context.Category.AddAsync(category);
         }
+        
 
         public async Task<IEnumerable<Category>> BrowseAsync()
                 => await _context.Category.ToListAsync();

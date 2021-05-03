@@ -6,6 +6,7 @@ using Store.Core.Repositories;
 using Store.Infrastructure.EF;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Data;
 
 namespace Store.Infrastructure.Repositories
 {
@@ -19,7 +20,8 @@ namespace Store.Infrastructure.Repositories
         public async Task AddAsync(User user)
         {
             await _context.User.AddAsync(user);            
-        }
+        }      
+
         public async Task<IEnumerable<User>> BrowseAsync(int offset, int limit)
                 => await _context.User.OrderBy(x => x.Email).Skip(offset).Take(limit).ToListAsync();
 

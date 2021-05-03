@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Store.Core.Domain;
 using Store.Core.Repositories;
 using Store.Infrastructure.DTO;
+using Store.Infrastructure.Services.Implementation.Extensions;
 using Store.Infrastructure.Services.Interfaces;
 
 namespace Store.Infrastructure.Services.Implementation
@@ -16,50 +18,26 @@ namespace Store.Infrastructure.Services.Implementation
         private readonly ICategoryRepository _categoryRepository;
         private readonly IGameCategoryRepository _gameCategoryRepository;
         private readonly IPlatformRepository _platformRepository;
-        private readonly IKeyRepository _keyRepository;
+        private readonly IKeyManager _keyManager;
         private readonly IMapper _mapper;
         public StoreManager(IMapper mapper, IGameRepository gameRepository,
          ICategoryRepository categoryRepository, IGameCategoryRepository gameCategoryRepository,
-         IPlatformRepository platformRepository, IKeyRepository keyRepository)
+         IPlatformRepository platformRepository, IKeyManager keyManager)
          {
             _gameRepository = gameRepository;
             _categoryRepository = categoryRepository;
             _gameCategoryRepository = gameCategoryRepository;
             _platformRepository = platformRepository;
-            _keyRepository = keyRepository;
+            _keyManager = keyManager;
             _mapper = mapper;
-         }
-
-        public async Task AddKeysAsync(Guid gameId, IEnumerable<string> keys)
-        {
-            Game game = await _gameRepository.GetAsync(gameId);
-            if(game == null)
-            {
-                throw new Exception($"Game of id '{gameId}' does not exist");
-            }
-            var dbkeys = await _keyRepository.BrowseAsync(gameId,keys);
-            if(dbkeys.Any())
-            {
-                var temp = string.Join(",",dbkeys.Select(x => x.GKey));
-                throw new Exception($"Game of id '{gameId}' already contains provided keys: '{temp}' ");
-            }
-            var Keys = keys.Select(key => new Key(Guid.NewGuid(),gameId,used: false, key));
-            await _keyRepository.AddManyAsync(Keys);
-            await _keyRepository.SaveChangesAsync();
-            
-        }
+         }   
+       
 
         public async Task<IEnumerable<GameDto>> BrowseGamesAsync()
         {
             var games = await _gameRepository.BrowseAsync();
             return _mapper.Map<IEnumerable<GameDto>>(games);
-        }
-
-        public async Task<IEnumerable<KeyDto>> BrowseKeysAsync(Guid gameId)
-        {
-           var keys = await _keyRepository.BrowseAsync(gameId);
-           return _mapper.Map<IEnumerable<KeyDto>>(keys);
-        }
+        }       
 
         public async Task CreateCategoryAsync(Guid id, string name)
         {
@@ -76,6 +54,7 @@ namespace Store.Infrastructure.Services.Implementation
         public async Task CreateGameAsync(Guid id, string name, decimal price, int quantity, string description,
          string ageCategory, DateTime releaseDate, bool isDigital, string platformName, IEnumerable<string> categories)
         {
+            
             //if(!categories.Any()) throw... - currently you can add games without categories           
             var availableCategories = await _categoryRepository.BrowseAsync();
             var notMatched = categories.Where(c => !availableCategories.Any(ac => ac.Name == c.ToLowerInvariant()));
@@ -110,6 +89,19 @@ namespace Store.Infrastructure.Services.Implementation
         public Task<GameDto> GetAsync(Guid id)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<int> GetCopyCount(Guid gameId)
+        {
+            var game = await _gameRepository.GetOrFailAsync(gameId);
+            if(!game.IsDigital)
+            {
+                return game.Quantity;
+            }
+            else
+            {
+                return await _keyManager.GetNotUsedKeyCount(gameId);
+            }
         }
     }
 }
