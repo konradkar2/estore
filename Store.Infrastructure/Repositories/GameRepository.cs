@@ -21,11 +21,19 @@ namespace Store.Infrastructure.Repositories
         }
 
         public async Task<IEnumerable<Game>> BrowseAsync()       
-                => await _context.Game.ToListAsync();
+                => await _context.Game
+                            .Include(g => g.Platform)
+                            .Include(g => g.GameCategories)
+                            .ThenInclude(gc => gc.Category)
+                            .ToListAsync();
         
 
         public async Task<Game> GetAsync(Guid id)
-                => await _context.Game.SingleOrDefaultAsync(x => x.Id == id);
+                => await _context.Game
+                            .Include(g => g.Platform)
+                            .Include(g => g.GameCategories)
+                            .ThenInclude(gc => gc.Category)
+                            .SingleOrDefaultAsync(x => x.Id == id);
 
         public async Task RemoveAsync(Guid id)
         {

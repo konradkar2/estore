@@ -7,14 +7,14 @@ namespace Store.Infrastructure.Handlers.Category
 {
     public class CreateCategoryHandler : ICommandHandler<CreateCategory>
     {
-        private readonly IGameManager _gameManager;
-        public CreateCategoryHandler(IGameManager gameManager)
+        private readonly IStoreManager _storeManager;
+        public CreateCategoryHandler(IStoreManager storeManager)
         {
-            _gameManager = gameManager;            
+            _storeManager = storeManager;            
         }
         public async Task HandleAsync(CreateCategory command)
         {
-            await _gameManager.CreateCategoryAsync(command.Id,command.Name);
+            await _storeManager.CreateCategoryAsync(command.Id,command.Name);
         }
     }
 }

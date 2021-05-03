@@ -7,14 +7,14 @@ namespace Store.Infrastructure.Handlers.Game
 {
     public class CreateGameHandler : ICommandHandler<CreateGame>
     {
-        private readonly IGameManager _gameManager;
-        public CreateGameHandler(IGameManager gameManager)
+        private readonly IStoreManager _storeManager;
+        public CreateGameHandler(IStoreManager storeManager)
         {
-            _gameManager = gameManager;
+            _storeManager = storeManager;
         }
         public async Task HandleAsync(CreateGame c)
         {
-            await _gameManager.CreateGameAsync(c.Id,c.Name,c.Price,c.Quantity,c.Description,
+            await _storeManager.CreateGameAsync(c.Id,c.Name,c.Price,c.Quantity,c.Description,
                         c.AgeCategory,c.ReleaseDate,c.IsDigital,c.platformName,c.Categories);
         }
     }

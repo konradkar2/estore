@@ -10,23 +10,45 @@ using Store.Infrastructure.Services.Interfaces;
 
 namespace Store.Infrastructure.Services.Implementation
 {
-    public class GameManager : IGameManager
+    public class StoreManager : IStoreManager
     {
         private readonly IGameRepository _gameRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IGameCategoryRepository _gameCategoryRepository;
         private readonly IPlatformRepository _platformRepository;
+        private readonly IKeyRepository _keyRepository;
         private readonly IMapper _mapper;
-        public GameManager(IMapper mapper, IGameRepository gameRepository,
+        public StoreManager(IMapper mapper, IGameRepository gameRepository,
          ICategoryRepository categoryRepository, IGameCategoryRepository gameCategoryRepository,
-         IPlatformRepository platformRepository)
+         IPlatformRepository platformRepository, IKeyRepository keyRepository)
          {
             _gameRepository = gameRepository;
             _categoryRepository = categoryRepository;
             _gameCategoryRepository = gameCategoryRepository;
             _platformRepository = platformRepository;
+            _keyRepository = keyRepository;
             _mapper = mapper;
          }
+
+        public async Task AddKeysAsync(Guid gameId, IEnumerable<string> keys)
+        {
+            var game = _gameRepository.GetAsync(gameId);
+            if(game == null)
+            {
+                throw new Exception($"Game of id '{gameId}' does not exist");
+            }
+            var dbkeys = await _keyRepository.BrowseAsync(gameId,keys);
+            if(dbkeys.Any())
+            {
+                var temp = string.Join(",",dbkeys.Select(x => x.GKey));
+                throw new Exception($"Game of id '{gameId}' already contains provided keys: '{temp}' ");
+            }
+            var Keys = keys.Select(key => new Key(Guid.NewGuid(),gameId,used: false, key));
+            await _keyRepository.AddManyAsync(Keys);
+            await _keyRepository.SaveChangesAsync();
+            
+        }
+
         public async Task<IEnumerable<GameDto>> BrowseAsync()
         {
             var games = await _gameRepository.BrowseAsync();
@@ -48,7 +70,7 @@ namespace Store.Infrastructure.Services.Implementation
         public async Task CreateGameAsync(Guid id, string name, decimal price, int quantity, string description,
          string ageCategory, DateTime releaseDate, bool isDigital, string platformName, IEnumerable<string> categories)
         {
-            //if(!categories.Any()) throw... - you can add games without categories           
+            //if(!categories.Any()) throw... - currently you can add games without categories           
             var availableCategories = await _categoryRepository.BrowseAsync();
             var notMatched = categories.Where(c => !availableCategories.Any(ac => ac.Name == c.ToLowerInvariant()));
             if(notMatched.Any())

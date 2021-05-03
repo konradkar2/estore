@@ -13,6 +13,7 @@ namespace Store.Infrastructure.EF
         public DbSet<GameCategory> GameCategory{get;set;}
         public DbSet<Category> Category {get;set;}
         public DbSet<UserTransaction> UserTransaction {get;set;}
+        public DbSet<Key> Key {get;set;}
         public StoreContext(DbContextOptions<StoreContext> options, SqlSettings sqlSettings) : base(options)
         {
             _sqlSettings =sqlSettings;

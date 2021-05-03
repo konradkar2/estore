@@ -7,13 +7,13 @@ using Store.Infrastructure.Services.Interfaces;
 
 namespace Store.Api.Controllers
 {
-    public class GameManagerController : ApiControllerBase
+    public class GameController : ApiControllerBase
     {
-        private readonly IGameManager _gameManager;
-        public GameManagerController(ICommandDispatcher commandDispatcher,
-         IGameManager gameManager) : base(commandDispatcher)
+        private readonly IStoreManager _storeManager;
+        public GameController(ICommandDispatcher commandDispatcher,
+         IStoreManager storeManager) : base(commandDispatcher)
         {
-            _gameManager = gameManager;
+            _storeManager = storeManager;
         }
         [HttpPost]
         public async Task<IActionResult> CreateGamePost([FromBody] CreateGame command)
@@ -21,6 +21,12 @@ namespace Store.Api.Controllers
             command.Id = Guid.NewGuid();
             await CommandDispatcher.DispatchAsync(command);
             return NoContent();
+        }
+        [HttpGet]
+        public async Task<IActionResult> BrowseGames()
+        {
+            var results = await _storeManager.BrowseAsync();
+            return Ok(results);
         }
     }
 }

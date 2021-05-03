@@ -11,8 +11,13 @@ namespace Store.Infrastructure.Mappers
                 cfg.CreateMap<User,UserDto>();
                 cfg.CreateMap<Platform,PlatformDto>();              
                 cfg.CreateMap<GameCategory,GameCategoryDto>();              
-                cfg.CreateMap<GameCategory,GameCategoryDetailsDto>();              
-                cfg.CreateMap<Game,GameDto>();               
+                cfg.CreateMap<GameCategory,GameCategoryDetailsDto>();                             
+                cfg.CreateMap<GameCategory,CategoryDto>()                            
+                            .ForMember(c => c.Id, opt => opt.MapFrom(gc => gc.Category.Id))
+                            .ForMember(c => c.Name, opt => opt.MapFrom(gc => gc.Category.Name));
+                cfg.CreateMap<Game,GameDto>()
+                            .ForMember(dto => dto.Categories, opt => opt.MapFrom(g => g.GameCategories));
+                cfg.CreateMap<Category,CategoryDto>();               
                 
             });
             return configuration.CreateMapper();
