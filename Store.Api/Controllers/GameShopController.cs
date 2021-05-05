@@ -22,6 +22,13 @@ namespace Store.Api.Controllers
             await CommandDispatcher.DispatchAsync(command);
             return NoContent();
         }
+        [HttpGet]
+        [Route("{userId}")]
+        public async Task<IActionResult> BrowseMyTransactions(Guid userId)
+        {
+            var userTransactions = await _transactionManager.BrowseUsersTransaction(userId);
+            return Ok(userTransactions);
+        }
         
     }
 }

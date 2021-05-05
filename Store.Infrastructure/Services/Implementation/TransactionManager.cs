@@ -7,6 +7,8 @@ using Store.Core.Repositories;
 using Store.Infrastructure.Services.Implementation.Extensions;
 using Store.Infrastructure.Services.Interfaces;
 using System.Linq;
+using Store.Infrastructure.DTO;
+
 namespace Store.Infrastructure.Services.Implementation
 {
     public class TransactionManager : ITransactionManager
@@ -32,9 +34,12 @@ namespace Store.Infrastructure.Services.Implementation
             _storeManager = storeManager;
          }
 
-        public Task<IEnumerable<UserTransaction>> BrowseUsersTransaction(Guid userId)
+        public async Task<IEnumerable<UserTransactionDto>> BrowseUsersTransaction(Guid userId)
         {
-            throw new NotImplementedException();
+            var user = await _userRepository.GetOrFailAsync(userId);  
+            var user_transactions = await _userTransactionRepository.GetManyAsync(userId);
+
+            return _mapper.Map<IEnumerable<UserTransactionDto>>(user_transactions);
         }
 
         public async Task BuyGames(Guid userId, IDictionary<Guid, int> gameIdQuantity)

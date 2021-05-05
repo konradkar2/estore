@@ -33,8 +33,17 @@ namespace Store.Infrastructure.Repositories
                             .SingleOrDefaultAsync(x => x.Id == id);
         public async Task<IEnumerable<UserTransaction>> GetManyAsync(Guid userId)
                 => await _context.UserTransaction
+                                    .Include(ut => ut.GameTransactions)   
+                                        .ThenInclude(gt => gt.Key)
                                     .Include(ut => ut.GameTransactions)
-                                    .Where(ut => ut.UserId == userId).ToListAsync();
+                                        .ThenInclude(gt => gt.Game)
+                                            .ThenInclude(g => g.GameCategories)
+                                                .ThenInclude(gc => gc.Category)   
+                                    .Include(ut => ut.GameTransactions)
+                                        .ThenInclude(gt => gt.Game)
+                                            .ThenInclude(g => g.Platform)                                                                                 
+                                    .Where(ut => ut.UserId == userId)                                    
+                                    .ToListAsync();
 
         public async Task RemoveAsync(Guid id)
         {
