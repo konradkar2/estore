@@ -7,11 +7,11 @@ using Store.Infrastructure.Services.Interfaces;
 
 namespace Store.Api.Controllers
 {
-    [Route("/games/manage")]
-    public class GameManageController : ApiControllerBase
+    [Route("/games")]
+    public class GamesController : ApiControllerBase
     {
         private readonly IStoreManager _storeManager;        
-        public GameManageController(ICommandDispatcher commandDispatcher,
+        public GamesController(ICommandDispatcher commandDispatcher,
          IStoreManager storeManager) : base(commandDispatcher)
         {
             _storeManager = storeManager;

@@ -30,14 +30,7 @@ namespace Store.Infrastructure.Services.Implementation
             _platformRepository = platformRepository;
             _keyManager = keyManager;
             _mapper = mapper;
-         }   
-       
-
-        public async Task<IEnumerable<GameDto>> BrowseGamesAsync()
-        {
-            var games = await _gameRepository.BrowseAsync();
-            return _mapper.Map<IEnumerable<GameDto>>(games);
-        }       
+         }                
 
         public async Task CreateCategoryAsync(Guid id, string name)
         {
