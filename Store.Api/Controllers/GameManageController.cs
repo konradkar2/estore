@@ -24,12 +24,7 @@ namespace Store.Api.Controllers
             await CommandDispatcher.DispatchAsync(command);
             return NoContent();
         }        
-        [HttpGet]
-        public async Task<IActionResult> BrowseGames()
-        {
-            var results = await _storeManager.BrowseGamesAsync();
-            return Ok(results);
-        }
+        
         
     }
 }
