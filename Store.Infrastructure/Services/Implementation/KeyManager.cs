@@ -15,14 +15,12 @@ namespace Store.Infrastructure.Services.Implementation
     public class KeyManager : IKeyManager
     {
         private readonly IGameRepository _gameRepository;      
-        private readonly IKeyRepository _keyRepository;
-        private readonly IMapper _mapper;
-        public KeyManager (IMapper mapper, IGameRepository gameRepository,
+        private readonly IKeyRepository _keyRepository;      
+        public KeyManager (IGameRepository gameRepository,
           IKeyRepository keyRepository)
          {
             _gameRepository = gameRepository;           
-            _keyRepository = keyRepository;
-            _mapper = mapper;
+            _keyRepository = keyRepository;          
          }
 
         public async Task AddKeysAsync(Guid gameId, IEnumerable<string> keys)
@@ -40,21 +38,6 @@ namespace Store.Infrastructure.Services.Implementation
             
         }
         
-        public async Task<IEnumerable<KeyDto>> BrowseKeysAsync(Guid gameId)
-        {
-           var keys = await _keyRepository.BrowseAsync(gameId);
-           return _mapper.Map<IEnumerable<KeyDto>>(keys);
-        }
-
-        public async Task<int> GetNotUsedKeyCount(Guid gameId)
-        {
-            var game = await _gameRepository.GetOrFailAsync(gameId);
-            if(!game.IsDigital)
-            {
-                throw new Exception($"Game of id '{gameId}' is not digital");
-            }
-            int count = await _keyRepository.GetNotUsedCountAsync(gameId);
-            return count;
-        }
+       
     }
 }

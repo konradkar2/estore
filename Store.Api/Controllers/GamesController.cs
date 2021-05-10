@@ -2,7 +2,8 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Store.Infrastructure.Commands;
-using Store.Infrastructure.Commands.Game;
+using Store.Infrastructure.Queries;
+using Store.Infrastructure.Queries.Game;
 using Store.Infrastructure.Services.Interfaces;
 
 namespace Store.Api.Controllers
@@ -19,17 +20,17 @@ namespace Store.Api.Controllers
                 
         [HttpGet]
         [Route("all")]
-        public async Task<IActionResult> BrowseGames([FromQuery] PaginationCommandBase command)
+        public async Task<IActionResult> BrowseGames([FromQuery] PaginationQueryBase query)
         {
-            var results = await _storeBrowser.BrowseGamesAsync(command.PageNumber);
+            var results = await _storeBrowser.BrowseGamesAsync(query.PageNumber);
             return Ok(results);
         }
         [HttpGet]        
-        public async Task<IActionResult> BrowseGames([FromQuery] SearchGames command)
+        public async Task<IActionResult> BrowseGames([FromQuery] SearchGames query)
         {
-            var results = await _storeBrowser.BrowseGamesAsync(command.Term,command.MinPrice,
-                command.MaxPrice,command.Platform,command.IsDigital,command.Categories,
-                command.PageNumber);
+            var results = await _storeBrowser.BrowseGamesAsync(query.Term,query.MinPrice,
+                query.MaxPrice,query.Platform,query.IsDigital,query.Categories,
+                query.PageNumber);
             return Ok(results);
         }
         

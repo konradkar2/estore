@@ -5,9 +5,9 @@ using Store.Infrastructure.DTO;
 
 namespace Store.Infrastructure.Services.Interfaces
 {
-    public interface IKeyManager: IService
+    public interface IKeyBrowser
     {
-        Task AddKeysAsync(Guid gameId,IEnumerable<string> keys);     
-        
+        Task<IEnumerable<KeyDto>> BrowseKeysAsync(Guid gameId);    
+        Task<int> GetNotUsedKeyCount(Guid gameId);
     }
 }

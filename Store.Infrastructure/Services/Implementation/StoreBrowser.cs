@@ -19,12 +19,14 @@ namespace Store.Infrastructure.Services.Implementation
         private readonly IGameRepository _gameRepository;
         private readonly IMapper _mapper;
         private readonly PaginationSettings _paginationSettings;
+        private readonly IKeyBrowser _keyBrowser;
         public StoreBrowser(IGameRepository gameRepository, IMapper mapper,
-                PaginationSettings paginationSettings)
+                PaginationSettings paginationSettings, IKeyBrowser keyBrowser)
         {
             _gameRepository = gameRepository;
             _mapper = mapper;
             _paginationSettings = paginationSettings;
+            _keyBrowser = keyBrowser; 
         }
         public async Task<IEnumerable<GameDto>> BrowseGamesAsync(string term, double? minprice, double? maxprice,
                      string platform, bool? isDigital,IEnumerable<string> categories, int page)
@@ -77,5 +79,28 @@ namespace Store.Infrastructure.Services.Implementation
             return _mapper.Map<IEnumerable<GameDto>>(results);
             
         }
+        public Task<GameDto> GetAsync(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<GameDto> GetAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }        
+
+        public async Task<int> GetCopyCount(Guid gameId)
+        {
+            var game = await _gameRepository.GetOrFailAsync(gameId);
+            if(!game.IsDigital)
+            {
+                return game.Quantity;
+            }
+            else
+            {
+                return await _keyBrowser.GetNotUsedKeyCount(gameId);
+            }
+        }
+       
     }
 }

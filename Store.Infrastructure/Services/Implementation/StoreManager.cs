@@ -22,13 +22,13 @@ namespace Store.Infrastructure.Services.Implementation
         private readonly IMapper _mapper;
         public StoreManager(IMapper mapper, IGameRepository gameRepository,
          ICategoryRepository categoryRepository, IGameCategoryRepository gameCategoryRepository,
-         IPlatformRepository platformRepository, IKeyManager keyManager)
+         IPlatformRepository platformRepository)
          {
             _gameRepository = gameRepository;
             _categoryRepository = categoryRepository;
             _gameCategoryRepository = gameCategoryRepository;
             _platformRepository = platformRepository;
-            _keyManager = keyManager;
+           
             _mapper = mapper;
          }                
 
@@ -74,27 +74,6 @@ namespace Store.Infrastructure.Services.Implementation
 
         }
 
-        public Task<GameDto> GetAsync(string name)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<GameDto> GetAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<int> GetCopyCount(Guid gameId)
-        {
-            var game = await _gameRepository.GetOrFailAsync(gameId);
-            if(!game.IsDigital)
-            {
-                return game.Quantity;
-            }
-            else
-            {
-                return await _keyManager.GetNotUsedKeyCount(gameId);
-            }
-        }
+        
     }
 }

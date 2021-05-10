@@ -18,12 +18,12 @@ namespace Store.Infrastructure.Services.Implementation
         private readonly IUserRepository _userRepository;
         private readonly IUserTransactionRepository _userTransactionRepository;
         private readonly IGameTransactionRepository _gameTransactionRepository;
-        private readonly IStoreManager _storeManager;
+        private readonly IStoreBrowser _storeBrowser;
         private readonly IMapper _mapper;
         public TransactionManager(IMapper mapper, IGameRepository gameRepository,
             IGameTransactionRepository gameTransactionRepository, IKeyRepository keyRepository,
             IUserTransactionRepository userTransactionRepository, IUserRepository userRepository,
-            IStoreManager storeManager)
+            IStoreBrowser storeBrowser)
          {
             _gameRepository = gameRepository;            
             _keyRepository = keyRepository;
@@ -31,7 +31,7 @@ namespace Store.Infrastructure.Services.Implementation
             _userTransactionRepository = userTransactionRepository;
             _mapper = mapper;
             _userRepository = userRepository;
-            _storeManager = storeManager;
+            _storeBrowser = storeBrowser;
          }
 
         public async Task<IEnumerable<UserTransactionDto>> BrowseUsersTransaction(Guid userId)
@@ -53,7 +53,7 @@ namespace Store.Infrastructure.Services.Implementation
                     throw new Exception("Qountity cannot be a negative number");
                 }
                 var game = await _gameRepository.GetOrFailAsync(gameId);
-                var count = await _storeManager.GetCopyCount(gameId);
+                var count = await _storeBrowser.GetCopyCount(gameId);
                 if(quantity > count)
                 {
                     throw new Exception($"Game of '{game.Name} {game.Id}' exits only in {count}, request was {quantity} ");

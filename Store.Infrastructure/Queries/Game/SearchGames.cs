@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 
-namespace Store.Infrastructure.Commands.Game
+namespace Store.Infrastructure.Queries.Game
 {
-    public class SearchGames : PaginationCommandBase
+    public class SearchGames : PaginationQueryBase
     {
         public string Term {get;set;}
         public double? MinPrice {get;set;}

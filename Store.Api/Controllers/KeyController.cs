@@ -9,14 +9,14 @@ namespace Store.Api.Controllers
 {
     public class KeyController : ApiControllerBase
     {
-        private readonly IKeyManager _keyManager;
+        private readonly IKeyBrowser _keyBrowser;
         public KeyController(ICommandDispatcher commandDispatcher,
-         IKeyManager StoreManager) : base(commandDispatcher)
+         IKeyBrowser keyBrowser ): base(commandDispatcher)
         {
-            _keyManager = StoreManager;
+            _keyBrowser = keyBrowser;
         }
         [HttpPost]
-        public async Task<IActionResult> CreateCategoryPost([FromBody] AddKeys command)
+        public async Task<IActionResult> AddKeys([FromBody] AddKeys command)
         {            
             await CommandDispatcher.DispatchAsync(command);
             return NoContent();
@@ -24,7 +24,7 @@ namespace Store.Api.Controllers
         [HttpGet("gameId")]
         public async Task<IActionResult> Get(Guid gameId)
         {
-            var results = await _keyManager.BrowseKeysAsync(gameId);
+            var results = await _keyBrowser.BrowseKeysAsync(gameId);
             return Ok(results);
         }
     }
