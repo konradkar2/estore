@@ -16,6 +16,8 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Store.Infrastructure.EF;
 using Store.Infrastructure.IoC;
+using Store.Infrastructure.Services.Interfaces;
+using Store.Infrastructure.Settings;
 
 namespace Store.Api
 {
@@ -69,6 +71,12 @@ namespace Store.Api
             {
                 endpoints.MapControllers();
             });
+            var generalSettings = app.ApplicationServices.GetService<GeneralSettings>();
+            if(generalSettings.SeedData)
+            {
+                var dataInitializer = app.ApplicationServices.GetService<IDataInitializer>();
+                dataInitializer.SeedAsync();
+            }
         }
     }
 }

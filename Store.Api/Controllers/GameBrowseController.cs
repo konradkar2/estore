@@ -16,21 +16,16 @@ namespace Store.Api.Controllers
          IStoreBrowser storeBrowser) : base(commandDispatcher)
         {
             _storeBrowser = storeBrowser;
-        }
-                
-        [HttpGet]
-        [Route("all")]
-        public async Task<IActionResult> BrowseGames([FromQuery] PaginationQueryBase query)
-        {
-            var results = await _storeBrowser.BrowseGamesAsync(query.PageNumber);
-            return Ok(results);
-        }
-        [HttpGet]        
-        public async Task<IActionResult> BrowseGames([FromQuery] SearchGames query)
-        {
+        }                
+        
+        [HttpGet]  
+        [Route("{page}")]  
+        public async Task<IActionResult> BrowseGames(int page,[FromQuery] SearchGames query)
+        {            
+            query.Page = page;
             var results = await _storeBrowser.BrowseGamesAsync(query.Term,query.MinPrice,
                 query.MaxPrice,query.Platform,query.IsDigital,query.Categories,
-                query.PageNumber);
+                query.Page);
             return Ok(results);
         }
         

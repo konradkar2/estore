@@ -20,6 +20,8 @@ namespace Store.Infrastructure.IoC.Modules
                     .SingleInstance();
             builder.RegisterInstance(_configuration.GetSettings<PaginationSettings>())
                     .SingleInstance();
+            builder.RegisterInstance(_configuration.GetSettings<GeneralSettings>())
+                    .SingleInstance();
         }
     }
 }

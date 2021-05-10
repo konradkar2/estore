@@ -24,12 +24,11 @@ namespace Store.Infrastructure.Services.Implementation
             _platformManager = platformManager;
         }
         public async Task SeedAsync()
-        {
+        {                        
             var users = await _userService.BrowseAsync(0,1);
-            if(users.Any())
-            {
+            if(users.Any())            
                 return;
-            }
+            
             int i =0;
             //create 10 users
             for(i=0 ; i < 10; i++)
@@ -59,21 +58,31 @@ namespace Store.Infrastructure.Services.Implementation
             i = 0;
             foreach(var platform in platforms)
             {
-                var gameCategories = new List<string>();
+                var tempCategories = new List<string>();
                 foreach(var category in categories)
                 {
-                    categories.Add(category);
+                    tempCategories.Add(category);
                     var title = $"Game{i}";
                     var description = $"Description of {title}";
+                    var ageCategory = "18+";
                     decimal price = i * 10m + i/10m;
                     var gameId = Guid.NewGuid();
-                    bool digital = i % 2 == 0;
-                    var quantity = i * 20;
-                    if(digital)
+                    bool isDigital = i % 2 == 0;
+                    var quantity = i * 20;                   
+                    var dateTime = DateTime.UtcNow;
+                    if(isDigital)
                     {
                         quantity = 0;
                     }
-                    await _storeManager.CreateGameAsync(gameId,title,price,quantity,description, )
+                    await _storeManager.CreateGameAsync(gameId,title,price,quantity,
+                        description,ageCategory,dateTime,isDigital,platform,tempCategories);
+                    if(isDigital)
+                    {
+                        var keys = Enumerable.Range(0,20)
+                                              .Select(x => $"{title}keykeykey{x}")
+                                              .ToList();
+                        await _keyManager.AddKeysAsync(gameId,keys);                                      
+                    }
                     i++;
                 }
             }
