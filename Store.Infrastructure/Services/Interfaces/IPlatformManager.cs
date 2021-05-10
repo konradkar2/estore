@@ -5,11 +5,8 @@ using Store.Infrastructure.DTO;
 
 namespace Store.Infrastructure.Services.Interfaces
 {
-    public interface IPlatformService : IService
-    {
-        Task<PlatformDto> GetAsync(string name);
-        Task<PlatformDto> GetAsync(Guid id);        
-        Task<IEnumerable<PlatformDto>> BrowseAsync();
+    public interface IPlatformManager : IService
+    {        
         Task CreateAsync(Guid id, string name);
     }
 }

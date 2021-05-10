@@ -9,11 +9,11 @@ namespace Store.Api.Controllers
 {
     public class PlatformController: ApiControllerBase
     {
-        private readonly IPlatformService _platformService;
+        private readonly IPlatformBrowser _platformBrowser;     
         public PlatformController(ICommandDispatcher commandDispatcher,
-                IPlatformService platformService) : base(commandDispatcher)
+                IPlatformBrowser platformBrowser) : base(commandDispatcher)
         {
-               _platformService = platformService;
+               _platformBrowser = platformBrowser;
         }
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]CreatePlatform command)
@@ -26,7 +26,7 @@ namespace Store.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Browse()
         {
-            var platforms =  await _platformService.BrowseAsync();
+            var platforms =  await _platformBrowser.BrowseAsync();
             return Ok(platforms);
         }
     }

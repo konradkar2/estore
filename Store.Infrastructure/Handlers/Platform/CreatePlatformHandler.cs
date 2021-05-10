@@ -8,13 +8,13 @@ namespace Store.Infrastructure.Handlers.Platform
 {
     public class CreatePlatformHandler: ICommandHandler<CreatePlatform>
     {
-        private readonly IPlatformService _platformService;
-        public CreatePlatformHandler(IPlatformService platformService){
-            _platformService = platformService;
+        private readonly IPlatformManager _platformManager;
+        public CreatePlatformHandler(IPlatformManager platformManager){
+            _platformManager = platformManager;
         }
         public async Task HandleAsync(CreatePlatform command)
         {                        
-            await _platformService.CreateAsync(command.Id,command.Name);
+            await _platformManager.CreateAsync(command.Id,command.Name);
         }
     }
 }
