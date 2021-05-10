@@ -17,7 +17,10 @@ namespace Store.Infrastructure.IoC.Modules
 
             builder.RegisterType<CommandDispatcher>()
                     .As<ICommandDispatcher>()
-                    .InstancePerLifetimeScope();
+                    .InstancePerLifetimeScope();                    
+           
+            builder.RegisterDecorator<TransactionalCommandDispatcher,ICommandDispatcher>();
+                   
         }
     }
 }

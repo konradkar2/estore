@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Store.Infrastructure.Commands;
 using Store.Infrastructure.Commands.User;
+using Store.Infrastructure.Queries;
 using Store.Infrastructure.Services.Interfaces;
 
 namespace Store.Api.Controllers
@@ -25,7 +26,7 @@ namespace Store.Api.Controllers
             return Created($"users/{command.Email}",null);            
         }
         [HttpGet]
-        public async Task<IActionResult> Browse() //TODO: Pagination
+        public async Task<IActionResult> Browse([FromQuery] PaginationQueryBase query) //TODO: Pagination
         {
             var users =  await _userService.BrowseAsync(0,100);
             return Ok(users);

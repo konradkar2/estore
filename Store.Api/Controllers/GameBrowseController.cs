@@ -9,10 +9,10 @@ using Store.Infrastructure.Services.Interfaces;
 namespace Store.Api.Controllers
 {
     [Route("/games")]
-    public class GamesController : ApiControllerBase
+    public class GameBrowseController : ApiControllerBase
     {
         private readonly IStoreBrowser _storeBrowser;        
-        public GamesController(ICommandDispatcher commandDispatcher,
+        public GameBrowseController(ICommandDispatcher commandDispatcher,
          IStoreBrowser storeBrowser) : base(commandDispatcher)
         {
             _storeBrowser = storeBrowser;

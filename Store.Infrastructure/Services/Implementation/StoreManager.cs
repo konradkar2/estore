@@ -18,7 +18,6 @@ namespace Store.Infrastructure.Services.Implementation
         private readonly ICategoryRepository _categoryRepository;
         private readonly IGameCategoryRepository _gameCategoryRepository;
         private readonly IPlatformRepository _platformRepository;
-        private readonly IKeyManager _keyManager;
         private readonly IMapper _mapper;
         public StoreManager(IMapper mapper, IGameRepository gameRepository,
          ICategoryRepository categoryRepository, IGameCategoryRepository gameCategoryRepository,

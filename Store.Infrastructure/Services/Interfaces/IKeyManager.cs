@@ -10,4 +10,5 @@ namespace Store.Infrastructure.Services.Interfaces
         Task AddKeysAsync(Guid gameId,IEnumerable<string> keys);     
         
     }
+    
 }

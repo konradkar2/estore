@@ -5,10 +5,11 @@ using AutoMapper;
 using Store.Core.Repositories;
 using Store.Infrastructure.DTO;
 using Store.Infrastructure.Services.Implementation.Extensions;
+using Store.Infrastructure.Services.Interfaces;
 
 namespace Store.Infrastructure.Services.Implementation
 {
-    public class KeyBrowser
+    public class KeyBrowser : IKeyBrowser
     {
         private readonly IGameRepository _gameRepository;      
         private readonly IKeyRepository _keyRepository;      
