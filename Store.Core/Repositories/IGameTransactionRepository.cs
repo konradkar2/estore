@@ -8,7 +8,7 @@ namespace Store.Core.Repositories
     {        
         Task<GameTransaction> GetAsync(Guid Id);        
         Task AddAsync(GameTransaction gameTransaction);
-        void Update(GameTransaction gameTransaction);  //not sure if should be async, but if 
+        Task Update(GameTransaction gameTransaction);  //not sure if should be async, but if 
         Task RemoveAsync(Guid id);  
     }
 }

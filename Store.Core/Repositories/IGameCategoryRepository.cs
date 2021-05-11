@@ -8,7 +8,7 @@ namespace Store.Core.Repositories
     {
          Task<IEnumerable<GameCategory>> GetManyAsync(Guid gameId);         
          Task AddAsync(GameCategory gameCategory);
-         void Update(GameCategory gameCategory);
+         Task Update(GameCategory gameCategory);
          Task RemoveAsync(Guid id);
     }
 }

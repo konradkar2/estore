@@ -15,28 +15,25 @@ namespace Store.Infrastructure.Repositories
         {
             _context = context;
         }
+        public async Task<GameTransaction> GetAsync(Guid id)
+                => await _context.GameTransaction.SingleOrDefaultAsync(x => x.Id == id);
         public async Task AddAsync(GameTransaction gameTransaction)
         {
             await _context.GameTransaction.AddAsync(gameTransaction);
-        }
-
-        public async Task<GameTransaction> GetAsync(Guid id)
-                => await _context.GameTransaction.SingleOrDefaultAsync(x => x.Id == id);
+            await _context.SaveChangesAsync();   
+        }        
 
         public async Task RemoveAsync(Guid id)
         {
             var gt = await GetAsync(id);
-             _context.GameTransaction.Remove(gt);
+            _context.GameTransaction.Remove(gt);
+            await _context.SaveChangesAsync();   
         }
 
-        public async Task SaveChangesAsync()
-        {
-            await _context.SaveChangesAsync();
-        }
-
-        public void Update(GameTransaction gameTransaction)
+        public async Task Update(GameTransaction gameTransaction)
         {
             _context.GameTransaction.Update(gameTransaction);
+            await _context.SaveChangesAsync();   
         }
     }
 }

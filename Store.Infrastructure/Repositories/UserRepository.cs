@@ -16,11 +16,7 @@ namespace Store.Infrastructure.Repositories
         public UserRepository(StoreContext context)
         {
             _context = context;
-        }
-        public async Task AddAsync(User user)
-        {
-            await _context.User.AddAsync(user);            
-        }      
+        }        
 
         public async Task<IEnumerable<User>> BrowseAsync(int offset, int limit)
                 => await _context.User.OrderBy(x => x.Email).Skip(offset).Take(limit).ToListAsync();
@@ -30,21 +26,23 @@ namespace Store.Infrastructure.Repositories
 
         public async Task<User> GetAsync(string email)
                 => await _context.User.SingleOrDefaultAsync(x => x.Email == email);
+        public async Task AddAsync(User user)
+        {
+            await _context.User.AddAsync(user);     
+            await _context.SaveChangesAsync();             
+        }      
 
         public async Task RemoveAsync(Guid id)
         {
             var user = await GetAsync(id);
-            _context.User.Remove(user);            
-        }
+            _context.User.Remove(user);   
+            await _context.SaveChangesAsync();         
+        }     
 
-        public async Task SaveChangesAsync()
-        {
-            await _context.SaveChangesAsync();
-        }
-
-        public void Update(User user)
+        public async Task Update(User user)
         {
              _context.User.Update(user);
+             await _context.SaveChangesAsync();
         }
     }
 }

@@ -15,11 +15,7 @@ namespace Store.Infrastructure.Repositories
         public UserTransactionRepository(StoreContext context)
         {
             _context = context;
-        }
-        public async Task AddAsync(UserTransaction userTransaction)
-        {
-            await _context.UserTransaction.AddAsync(userTransaction);
-        }
+        }       
 
         public async Task<IEnumerable<UserTransaction>> BrowseAsync(int offset, int limit)
                 => await _context.UserTransaction
@@ -44,21 +40,22 @@ namespace Store.Infrastructure.Repositories
                                             .ThenInclude(g => g.Platform)                                                                                 
                                     .Where(ut => ut.UserId == userId)                                    
                                     .ToListAsync();
-
+        public async Task AddAsync(UserTransaction userTransaction)
+        {
+            await _context.UserTransaction.AddAsync(userTransaction);
+            await _context.SaveChangesAsync();
+        }
         public async Task RemoveAsync(Guid id)
         {
             var ut = await GetAsync(id);
             _context.UserTransaction.Remove(ut);
-        }
-
-        public async Task SaveChangesAsync()
-        {
             await _context.SaveChangesAsync();
-        }
+        }       
 
-        public void Update(UserTransaction userTransaction)
+        public async Task Update(UserTransaction userTransaction)
         {
             _context.UserTransaction.Update(userTransaction);
+            await _context.SaveChangesAsync();
         }
     }
 }

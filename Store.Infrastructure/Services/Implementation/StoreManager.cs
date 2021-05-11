@@ -39,8 +39,7 @@ namespace Store.Infrastructure.Services.Implementation
                 throw new Exception($"Category with name '{name}' already exists.");
             }
             category = new Category(id,name);
-            await _categoryRepository.AddAsync(category);
-            await _categoryRepository.SaveChangesAsync();
+            await _categoryRepository.AddAsync(category);            
         }
 
         public async Task CreateGameAsync(Guid id, string name, decimal price, int quantity, string description,

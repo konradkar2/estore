@@ -11,7 +11,7 @@ namespace Store.Core.Repositories
         Task<UserTransaction> GetAsync(Guid id);
         Task<IEnumerable<UserTransaction>> BrowseAsync(int offset, int limit);
         Task AddAsync(UserTransaction userTransaction);
-        void Update(UserTransaction userTransaction);  //not sure if should be async, but if 
+        Task Update(UserTransaction userTransaction);  //not sure if should be async, but if 
         Task RemoveAsync(Guid id);  
     }
 }

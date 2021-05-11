@@ -63,13 +63,13 @@ namespace Store.Infrastructure.Services.Implementation
             foreach(var (gameId,quantity) in gameIdQuantity)
             {                
                 await _userTransactionRepository.AddAsync(userTransaction);
-                var keys = await _keyRepository.TakeManyNotUsedAsync(gameId,quantity);
+                var keys = await _keyRepository.TakeNotUsedAsync(gameId,quantity);
                 //set used to true on keys
                 keys = keys.Select(k => new Key(k.Id,k.GameId,used: true,k.GKey)).ToList();
                 var gameTransactions = keys.Select(k => new GameTransaction(Guid.NewGuid(),userTransaction.Id,gameId,k.Id));
                 foreach(var key in keys)
                 {
-                    _keyRepository.Update(key);
+                    await _keyRepository.Update(key);
                 }
                 foreach(var gt in gameTransactions)
                 {

@@ -16,22 +16,12 @@ namespace Store.Infrastructure.Repositories
         public KeyRepository(StoreContext context)
         {
             _context = context;
-        }
-        public async Task AddAsync(Key key)        
-        {           
-            await _context.AddAsync(key);
-        }
-        public async Task AddManyAsync(IEnumerable<Key> keys)
-        {
-            await _context.AddRangeAsync(keys);
-        }
+        }       
 
         public async Task<IEnumerable<Key>> BrowseAsync(Guid gameId)
                 => await  _context.Key
                         .Include(k => k.Game)
-                        .Where(k => k.GameId == gameId).ToListAsync();
-                                      
-
+                        .Where(k => k.GameId == gameId).ToListAsync();                                      
         public async Task<Key> GetAsync(Guid id)
                 => await  _context.Key.SingleOrDefaultAsync(k => k.Id == id);
 
@@ -40,42 +30,42 @@ namespace Store.Infrastructure.Repositories
                         .Where(k => k.GameId == gameId)
                         .Where(k => keys.Any(ke => ke == k.GKey))
                         .ToListAsync();
-
-        public async Task RemoveAsync(Guid id)
-        {
-            var key = await GetAsync(id);
-             _context.Key.Remove(key);
-        }
-
-        public async Task SaveChangesAsync()
-        {
-            await _context.SaveChangesAsync();
-        }
-
-        public void Update(Key key)
-        {
-            _context.Key.Update(key);
-        }
-
         public async Task<int> GetNotUsedCountAsync(Guid gameId)
             => await _context.Key                                             
                         .Where(k => k.GameId == gameId)
                         .Where(k => k.Used == false)
                         .CountAsync();
-
-        public async Task<Key> TakeOneNotUsedAsync(Guid gameId)
-            => await _context.Key      
-                            .AsNoTracking()                       
-                            .Where(k => k.GameId == gameId)
-                            .Where(k => k.Used == false)
-                            .FirstOrDefaultAsync();
-
-        public async Task<IEnumerable<Key>> TakeManyNotUsedAsync(Guid gameId, int quantity)
+       
+        public async Task<IEnumerable<Key>> TakeNotUsedAsync(Guid gameId, int quantity)
             => await _context.Key     
                             .AsNoTracking()                        
                             .Where(k => k.GameId == gameId)
                             .Where(k => k.Used == false)
                             .Take(quantity)
                             .ToListAsync();
+         public async Task AddAsync(Key key)        
+        {           
+            await _context.AddAsync(key);
+            await _context.SaveChangesAsync();
+        }
+        public async Task AddManyAsync(IEnumerable<Key> keys)
+        {
+            await _context.AddRangeAsync(keys);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task RemoveAsync(Guid id)
+        {
+            var key = await GetAsync(id);
+             _context.Key.Remove(key);
+             await _context.SaveChangesAsync();   
+        }       
+
+        public async Task Update(Key key)
+        {
+            _context.Key.Update(key);
+            await _context.SaveChangesAsync();   
+        }
+        
     }
 }

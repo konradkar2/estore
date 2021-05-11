@@ -17,29 +17,24 @@ namespace Store.Infrastructure.Repositories
         {
             _context = context;
         }
+        public async Task<IEnumerable<GameCategory>> GetManyAsync(Guid gameId)
+                => await _context.GameCategory.Where(x => x.GameId == gameId).ToListAsync();
         public async Task AddAsync(GameCategory gameCategory)
         {
             await _context.GameCategory.AddAsync(gameCategory);
-        }
-        
-
-        public async Task<IEnumerable<GameCategory>> GetManyAsync(Guid gameId)
-                => await _context.GameCategory.Where(x => x.GameId == gameId).ToListAsync();
-
+            await _context.SaveChangesAsync();
+        }       
         public async Task RemoveAsync(Guid id)
         {
             var GameCategory = await _context.GameCategory.SingleOrDefaultAsync(x => x.Id == id);
             _context.GameCategory.Remove(GameCategory);
-        }
-
-        public async Task SaveChangesAsync()
-        {
             await _context.SaveChangesAsync();
-        }
+        }       
 
-        public void Update(GameCategory gameCategory)
+        public async Task Update(GameCategory gameCategory)
         {
             _context.GameCategory.Update(gameCategory);
+            await _context.SaveChangesAsync();
         }
     }
 }

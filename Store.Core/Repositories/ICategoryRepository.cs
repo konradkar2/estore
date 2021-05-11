@@ -11,7 +11,7 @@ namespace Store.Core.Repositories
         Task<Category> GetAsync(string name);         
         Task<IEnumerable<Category>> BrowseAsync();         
          Task AddAsync(Category category);
-         void Update(Category category);
+         Task Update(Category category);
          Task RemoveAsync(Guid id);
          Task RemoveAsync(string name);
     }

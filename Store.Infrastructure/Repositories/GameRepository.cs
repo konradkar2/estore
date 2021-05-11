@@ -17,13 +17,7 @@ namespace Store.Infrastructure.Repositories
         public GameRepository(StoreContext context)
         {
             _context = context;
-        }
-        public async Task AddAsync(Game game)
-        {
-            await _context.Game.AddAsync(game);            
-        }
-
-        
+        }        
         public async Task<IEnumerable<Game>> BrowseAsync(int skip, int take)       
                 => await _context.Game
                             .Include(g => g.Platform)
@@ -42,28 +36,28 @@ namespace Store.Infrastructure.Repositories
                             .Skip(skip).Take(take)
                             .ToListAsync();
         }
-
         public async Task<Game> GetAsync(Guid id)
                 => await _context.Game
                             .Include(g => g.Platform)
                             .Include(g => g.GameCategories)
                             .ThenInclude(gc => gc.Category)
                             .SingleOrDefaultAsync(x => x.Id == id);
-
+        public async Task AddAsync(Game game)
+        {
+            await _context.Game.AddAsync(game);         
+            await _context.SaveChangesAsync();   
+        }
         public async Task RemoveAsync(Guid id)
         {
             var game = await GetAsync(id);
-            _context.Game.Remove(game);            
-        }
+            _context.Game.Remove(game);   
+            await _context.SaveChangesAsync();            
+        }        
 
-        public async Task SaveChangesAsync()
+        public async Task Update(Game game)
         {
-            await _context.SaveChangesAsync();
-        }
-
-        public void Update(Game game)
-        {
-            _context.Game.Update(game);           
+            _context.Game.Update(game);        
+            await _context.SaveChangesAsync();      
         }
        
     }

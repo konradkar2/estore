@@ -12,7 +12,7 @@ namespace Store.Core.Repositories
          Task<IEnumerable<Game>> BrowseAsync(int skip, int take);
          Task<IEnumerable<Game>> BrowseAsync(Expression<Func<Game,bool>> filter, int skip,int take);
          Task AddAsync(Game game);
-         void Update(Game game);
+         Task Update(Game game);
          Task RemoveAsync(Guid id);
     }
 }
