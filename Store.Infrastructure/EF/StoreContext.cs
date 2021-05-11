@@ -1,5 +1,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Store.Core.Domain;
 
 namespace Store.Infrastructure.EF
@@ -24,7 +25,7 @@ namespace Store.Infrastructure.EF
             if(_sqlSettings.InMemory)
             {
                 optionsBuilder.UseInMemoryDatabase("storeTest");
-
+                optionsBuilder.ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning));
                 return;
             }
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 22));
