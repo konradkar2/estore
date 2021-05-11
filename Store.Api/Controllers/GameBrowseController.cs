@@ -8,7 +8,7 @@ using Store.Infrastructure.Services.Interfaces;
 
 namespace Store.Api.Controllers
 {
-    [Route("/games")]
+    [Route("games")]
     public class GameBrowseController : ApiControllerBase
     {
         private readonly IStoreBrowser _storeBrowser;        
@@ -19,7 +19,7 @@ namespace Store.Api.Controllers
         }                
         
         [HttpGet]  
-        [Route("{page}")]  
+        [Route("all/{page}")]  
         public async Task<IActionResult> BrowseGames(int page,[FromQuery] SearchGames query)
         {            
             query.Page = page;
@@ -27,6 +27,14 @@ namespace Store.Api.Controllers
                 query.MaxPrice,query.Platform,query.IsDigital,query.Categories,
                 query.Page);
             return Ok(results);
+        }
+        [HttpGet]  
+        [Route("{gameId}")]  
+        public async Task<IActionResult> Get(Guid gameId)
+        {           
+           
+            var result = await _storeBrowser.GetAsync(gameId);               
+            return Ok(result);
         }
         
     }

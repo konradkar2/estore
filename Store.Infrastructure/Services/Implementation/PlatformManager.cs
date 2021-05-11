@@ -27,9 +27,7 @@ namespace Store.Infrastructure.Services.Implementation
                 throw new Exception($"Platform of name '{name}' already exists.");
             }
             platform = new Platform(id,name);
-            await _platformRepository.AddAsync(platform);
-            await _platformRepository.SaveChangesAsync();
-
+            await _platformRepository.AddAsync(platform);           
         }      
     }
 }

@@ -9,8 +9,7 @@ namespace Store.Infrastructure.Services.Interfaces
     {
         Task<IEnumerable<GameDto>> BrowseGamesAsync(string term, double? minprice,
                      double? maxprice, string platform,bool? isDigital, IEnumerable<string> categories, int page);
-        Task<IEnumerable<GameDto>> BrowseGamesAsync(int page);
-        Task<GameDto> GetAsync(string name);
+        Task<IEnumerable<GameDto>> BrowseGamesAsync(int page);       
         Task<GameDto> GetAsync(Guid id);
         Task<int> GetCopyCount(Guid gameId);     
     }

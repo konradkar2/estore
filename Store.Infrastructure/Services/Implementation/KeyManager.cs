@@ -33,8 +33,7 @@ namespace Store.Infrastructure.Services.Implementation
                 throw new Exception($"Game of id '{gameId}' already contains provided keys: '{temp}' ");
             }
             var Keys = keys.Select(key => new Key(Guid.NewGuid(),gameId,used: false, key));
-            await _keyRepository.AddManyAsync(Keys);
-            await _keyRepository.SaveChangesAsync();
+            await _keyRepository.AddManyAsync(Keys);           
             
         }
         

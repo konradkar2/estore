@@ -68,8 +68,7 @@ namespace Store.Infrastructure.Services.Implementation
                 var catId = Guid.NewGuid();
                 var gameCategory = new GameCategory(catId,id,cat.Id);
                 await _gameCategoryRepository.AddAsync(gameCategory);
-            }
-            await _gameRepository.SaveChangesAsync();
+            }            
 
         }
 

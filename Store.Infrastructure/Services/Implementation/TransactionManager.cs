@@ -74,8 +74,7 @@ namespace Store.Infrastructure.Services.Implementation
                 foreach(var gt in gameTransactions)
                 {
                     await _gameTransactionRepository.AddAsync(gt);
-                }
-                await _gameRepository.SaveChangesAsync();
+                }              
 
             }
 

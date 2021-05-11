@@ -19,8 +19,7 @@ namespace Store.Infrastructure.Repositories
         public async Task AddAsync(Category category)
         {
             await _context.Category.AddAsync(category);
-        }
-        
+        }        
 
         public async Task<IEnumerable<Category>> BrowseAsync()
                 => await _context.Category.ToListAsync();

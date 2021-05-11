@@ -22,9 +22,8 @@ namespace Store.Api.Controllers
         {
             command.Id = Guid.NewGuid();
             await CommandDispatcher.DispatchAsync(command);
-            return NoContent();
+            return Created($"/games/{command.Id.ToString()}",null);
         }        
-        
         
     }
 }

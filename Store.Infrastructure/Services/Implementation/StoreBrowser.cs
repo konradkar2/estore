@@ -78,15 +78,12 @@ namespace Store.Infrastructure.Services.Implementation
             var results = await _gameRepository.BrowseAsync(skip, take);
             return _mapper.Map<IEnumerable<GameDto>>(results);
             
-        }
-        public Task<GameDto> GetAsync(string name)
-        {
-            throw new NotImplementedException();
-        }
+        }        
 
-        public Task<GameDto> GetAsync(Guid id)
+        public async Task<GameDto> GetAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var game = await _gameRepository.GetOrFailAsync(id);
+            return _mapper.Map<GameDto>(game);
         }        
 
         public async Task<int> GetCopyCount(Guid gameId)

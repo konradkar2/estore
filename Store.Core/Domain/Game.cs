@@ -31,6 +31,7 @@ namespace Store.Core.Domain
             AgeCategory = ageCategory;
             IsDigital = isDigital;
             PlatformId = platformId;
+            ReleaseDate = releaseDate;
         }
         private void SetName(string name)
         {
