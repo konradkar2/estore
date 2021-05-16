@@ -67,19 +67,20 @@ namespace Store.Tests.Unit
             usersDto.Should().BeEmpty();
         }
         [Fact]
-        public async Task When_calling_browse_users_on_should_return_proper_user_dto_enumerable()
+        public async Task When_calling_browse_users_on_not_empty_user_repository_should_return_proper_user_dto_enumerable()
         {
             var userRepositoryMock = new Mock<IUserRepository>();          
             var encrypterMock = new Mock<IEncrypter>();              
             var userService = new UserService(userRepositoryMock.Object,_mapper,encrypterMock.Object);  
             
-            int usersNumberToGet = 50;
-            var users = UsersUtilities.GenerateManyUsers(usersNumberToGet);           
+            int usersNumberToCreate = 50;
+            var users = UsersUtilities.GenerateManyUsers(usersNumberToCreate);           
             userRepositoryMock.Setup(x => x
-                              .BrowseAsync(It.Is<int>(x => x==0),It.Is<int>(x => x== usersNumberToGet)))
-                               .ReturnsAsync(users);   
+                              .BrowseAsync(It.Is<int>(x => x==0),It.Is<int>(x => x >= usersNumberToCreate)))
+                              .ReturnsAsync(users);   
             var properUserDtos = _mapper.Map<IEnumerable<UserDto>>(users);
 
+            int usersNumberToGet = usersNumberToCreate + 10;
             var usersDto = await userService.BrowseAsync(0,usersNumberToGet);
             
             usersDto.Should().BeEquivalentTo(properUserDtos);
