@@ -73,15 +73,16 @@ namespace Store.Tests.Unit
             var encrypterMock = new Mock<IEncrypter>();              
             var userService = new UserService(userRepositoryMock.Object,_mapper,encrypterMock.Object);  
             
-            int usersNumberToCreate = 50;
-            var users = UsersUtilities.GenerateManyUsers(usersNumberToCreate);           
+            int usersNumberToBeInRepository = 50;
+            int usersNumberToBeFetchedFromRepository = usersNumberToBeInRepository + 10;
+            var users = UsersUtilities.GenerateManyUsers(usersNumberToBeInRepository);           
             userRepositoryMock.Setup(x => x
-                              .BrowseAsync(It.Is<int>(x => x==0),It.Is<int>(x => x >= usersNumberToCreate)))
+                              .BrowseAsync(It.Is<int>(x => x==0),It.Is<int>(x => x >= usersNumberToBeInRepository)))
                               .ReturnsAsync(users);   
             var properUserDtos = _mapper.Map<IEnumerable<UserDto>>(users);
 
-            int usersNumberToGet = usersNumberToCreate + 10;
-            var usersDto = await userService.BrowseAsync(0,usersNumberToGet);
+            
+            var usersDto = await userService.BrowseAsync(0,usersNumberToBeFetchedFromRepository);
             
             usersDto.Should().BeEquivalentTo(properUserDtos);
         }
